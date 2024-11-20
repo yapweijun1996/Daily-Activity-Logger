@@ -122,6 +122,12 @@
 
         <button type="submit">Add Activity</button>
       </form>
+      
+      <div class="controls">
+        <label for="filterDate">Filter by Date</label>
+        <input type="date" id="filterDate">
+        <button onclick="filterByDate()">Filter</button>
+      </div>
 
       <div class="log" id="activityLog">
         <h2>Activity Log</h2>
@@ -132,8 +138,9 @@
               <th style="width:150px;" onclick="sortTable(1)">Activity</th>
               <th style="width:120px;" onclick="sortTable(2)">Category</th>
               <th style="width:139px;" onclick="sortTable(3)">Date</th>
-              <th style="width:150px;" onclick="sortTable(4)">Details</th>
-              <th style="width:70px;" >DEL</th>
+              <th style="width:100px;" onclick="sortTable(4)">Duration</th>
+              <th style="width:150px;" onclick="sortTable(5)">Details</th>
+              <th style="width:70px;">DEL</th>
             </tr>
           </thead>
           <tbody id="logItems"></tbody>
@@ -216,12 +223,14 @@
       function renderLog(activities) {
         activityLog.innerHTML = "";
         activities.forEach((entry, index) => {
+          const durationStr = index > 0 ? calculateDuration(savedActivities[index - 1].date, entry.date) : '-';
           const logRow = document.createElement("tr");
           logRow.innerHTML = `
           <td>${index + 1}</td>
           <td>${entry.activity}</td>
           <td>${entry.category}</td>
           <td data-date="${entry.date}">${formatDate(entry.date)}</td>
+          <td>${durationStr}</td>
           <td>${entry.details}</td>
           <td><button onclick="deleteActivity(${index})">DEL</button></td>
         `;
@@ -292,6 +301,28 @@
         document.body.innerHTML = "";
         document.body.style.backgroundColor = "black";
         location.reload();
+      }
+
+      function calculateDuration(prevDate, currentDate) {
+        const prev = new Date(prevDate);
+        const curr = new Date(currentDate);
+        const duration = Math.abs(curr - prev);
+        const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
+        const hours = Math.floor(duration / (1000 * 60 * 60));
+        return `${hours}h ${minutes}m`;
+      }
+
+      function filterByDate() {
+        const filterDate = document.getElementById("filterDate").value;
+        if (filterDate) {
+          const filteredActivities = savedActivities.filter(activity => {
+            const activityDate = new Date(activity.date);
+            return activityDate.toISOString().split('T')[0] === filterDate;
+          });
+          renderLog(filteredActivities);
+        } else {
+          renderLog(savedActivities);
+        }
       }
 
       window.addEventListener('load', function() {
