@@ -293,11 +293,9 @@
         location.reload();
       }
 
-      window.onload = function() {
-        setTimeout(function() {
-          document.querySelector('#activity').focus();
-        }, 100);
-      };
+window.addEventListener('load', function() {
+    document.querySelector('#activity').focus();
+});
     </script>
   </body>
 </html>
