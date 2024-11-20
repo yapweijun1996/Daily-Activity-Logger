@@ -294,7 +294,9 @@
       }
 
 window.addEventListener('load', function() {
-    document.querySelector('#activity').focus();
+    setTimeout(function() {
+        document.querySelector('#activity').focus();
+    }, 500);
 });
     </script>
   </body>
