@@ -293,15 +293,15 @@
         location.reload();
       }
 
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        var input = document.querySelector('#activity');
-        input.focus();
-        if (input.setSelectionRange) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var input = document.querySelector('#activity');
+          input.focus();
+          if (input.setSelectionRange) {
             input.setSelectionRange(input.value.length, input.value.length);
-        }
-    }, 500);
-});
+          }
+        }, 500);
+      });
     </script>
   </body>
 </html>
