@@ -96,7 +96,7 @@
   </head>
   <body>
     <header>
-      <h1>Daily Activity Logger</h1>
+      <h1 onclick="refreshPage()">Daily Activity Logger</h1>
     </header>
     <div class="container">
       <form id="activityForm">
@@ -285,6 +285,10 @@
           localStorage.setItem("activities", JSON.stringify(savedActivities));
           renderLog(savedActivities);
         }
+      }
+
+      function refreshPage() {
+        location.reload();
       }
     </script>
   </body>
