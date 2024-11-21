@@ -323,11 +323,22 @@
 				return `${hours}h ${minutes}m`;
 			}
 			
+			function filterByToday() {
+				const today = new Date().toISOString().slice(0, 10);
+				const filteredActivities = savedActivities.filter(activity => {
+					const activityDate = new Date(activity.date);
+					return activityDate.toISOString().slice(0, 10) === today;
+				});
+				renderLog(filteredActivities);
+			}
+			
 			function filterByDate() {
 				const filterDate = document.getElementById("filterDate").value;
 				if (filterDate) {
 					const filteredActivities = savedActivities.filter(activity => {
 						const activityDate = new Date(activity.date);
+						console.log("filterDate : " + filterDate);
+						console.log("toISOString : " + activityDate.toISOString().slice(0, 10));
 						return activityDate.toISOString().slice(0, 10) === filterDate;
 					});
 					renderLog(filteredActivities);
@@ -362,17 +373,15 @@
 			}
 			
 			window.addEventListener('load', function() {
+				setTimeout(function() {
+					var input = document.querySelector('#activity');
+					input.focus();
+					if (input.setSelectionRange) {
+						input.setSelectionRange(input.value.length, input.value.length);
+					}
+				}, 500);
 				filterByToday();
 			});
-			
-			function filterByToday() {
-				const today = new Date().toISOString().slice(0, 10);
-				const filteredActivities = savedActivities.filter(activity => {
-					const activityDate = new Date(activity.date);
-					return activityDate.toISOString().slice(0, 10) === today;
-				});
-				renderLog(filteredActivities);
-			}
 		</script>
 	</body>
 </html>
