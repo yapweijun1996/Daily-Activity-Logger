@@ -343,6 +343,15 @@
 				renderLog(filteredActivities);
 			}
 			
+			function filterByToday() {
+			  const today = new Date().toISOString().slice(0, 10);
+			  const filteredActivities = savedActivities.filter(activity => {
+				const activityDate = new Date(activity.date);
+				return activityDate.toISOString().slice(0, 10) === today;
+			  });
+			  renderLog(filteredActivities);
+			}
+			
 			window.addEventListener('load', function() {
 				setTimeout(function() {
 					var input = document.querySelector('#activity');
@@ -351,6 +360,7 @@
 						input.setSelectionRange(input.value.length, input.value.length);
 					}
 				}, 500);
+				filterByToday();
 			});
 		</script>
 	</body>
